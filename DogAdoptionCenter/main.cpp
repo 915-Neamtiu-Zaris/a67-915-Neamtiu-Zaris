@@ -48,5 +48,7 @@ int main()
 	Console c;
 	c.runConsole();
 
+	c.writeDogsCSV();
+
 	return 0;
 }

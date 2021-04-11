@@ -141,16 +141,22 @@
   <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="Dog.h" />
+    <ClInclude Include="DogValidator.h" />
     <ClInclude Include="DynamicVector.h" />
     <ClInclude Include="Repository.h" />
+    <ClInclude Include="RepositoryException.h" />
     <ClInclude Include="RepositorySTL.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dog.cpp" />
+    <ClCompile Include="DogValidator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Service.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dogs.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

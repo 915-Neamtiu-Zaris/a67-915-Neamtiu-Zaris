@@ -3,6 +3,7 @@
 #include "Repository.h"
 #include "RepositorySTL.h"
 #include "Dog.h"
+#include "DogValidator.h"
 #include <string>
 
 class Service {
@@ -13,19 +14,22 @@ private:
 	STLRepository<Dog> repo;
 	STLRepository<Dog> adoptionList;
 
+	DogValidator validator;
+
 public:
 
 	Service();
 	~Service();
 
 	void addDogByVars(std::string name, std::string breed, int age, std::string link_photo);
+	void addDog(Dog d);
 	void removeDogById(int id);
 	void updateDogById(int id, std::string name, std::string breed, int age, std::string link_photo);
-	std::vector<Dog>::iterator getAllDogs();
+	std::vector<Dog> getAllDogs();
 	int getNrDogs();
 	void add10Dogs();
 	std::vector<Dog> filterDogsBreedAge(std::string breed, int age);
-	std::vector<Dog>::iterator getAdoptedDogs();
+	std::vector<Dog> getAdoptedDogs();
 	int getNrAdoptedDogs();
 	void addToAdoptionList(Dog d);
 };
@@ -41,17 +45,18 @@ Service::~Service()
 inline void Service::addDogByVars(std::string name, std::string breed, int age, std::string link_photo)
 {
 	Dog d(name, breed, age, link_photo);
+	validator.validate(d);
+	this->repo.add(d);
+}
+
+inline void Service::addDog(Dog d)
+{
 	this->repo.add(d);
 }
 
 inline void Service::removeDogById(int id)
 {
-	if(this->repo.existsElem(id))
-		this->repo.removeById(id);
-	else
-	{
-		throw 21;
-	}
+	this->repo.removeById(id);
 }
 
 inline void Service::updateDogById(int id, std::string name, std::string breed, int age, std::string link_photo)
@@ -65,7 +70,7 @@ inline void Service::updateDogById(int id, std::string name, std::string breed, 
 		throw 21;
 }
 
-inline std::vector<Dog>::iterator Service::getAllDogs()
+inline std::vector<Dog> Service::getAllDogs()
 {
 	return this->repo.getAllElements();
 }
@@ -102,7 +107,7 @@ inline void Service::add10Dogs()
 
 inline std::vector<Dog> Service::filterDogsBreedAge(std::string breed, int age)
 {
-	std::vector<Dog>::iterator dogs = this->getAllDogs();
+	std::vector<Dog> dogs = this->getAllDogs();
 	int nrDogs = this->getNrDogs();
 
 	std::vector<Dog> filteredDogs;
@@ -117,7 +122,7 @@ inline std::vector<Dog> Service::filterDogsBreedAge(std::string breed, int age)
 	return filteredDogs;
 }
 
-inline std::vector<Dog>::iterator Service::getAdoptedDogs()
+inline std::vector<Dog> Service::getAdoptedDogs()
 {
 	return this->adoptionList.getAllElements();
 }

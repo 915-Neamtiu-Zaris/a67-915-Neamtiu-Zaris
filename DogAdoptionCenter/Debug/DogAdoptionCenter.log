@@ -1,4 +1,2 @@
-﻿  main.cpp
-C:\Users\zneam\OneDrive\Documents\GitHub\a67-915-Neamtiu-Zaris\DogAdoptionCenter\Test.h(60,13): warning C4101: 'ex': unreferenced local variable
-C:\Users\zneam\OneDrive\Documents\GitHub\a67-915-Neamtiu-Zaris\DogAdoptionCenter\Test.h(87,13): warning C4101: 'ex': unreferenced local variable
+﻿  DogValidator.cpp
   DogAdoptionCenter.vcxproj -> C:\Users\zneam\OneDrive\Documents\GitHub\a67-915-Neamtiu-Zaris\DogAdoptionCenter\Debug\DogAdoptionCenter.exe

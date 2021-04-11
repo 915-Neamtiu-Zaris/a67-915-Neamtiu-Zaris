@@ -1,6 +1,7 @@
 #include "Dog.h"
 #include <sstream>
 #include <iostream>
+#include <vector>
 
 
 Dog::Dog()
@@ -61,6 +62,57 @@ void Dog::set_id(int id)
 	this->id = id;
 }
 
+void Dog::incrementId()
+{
+	this->current_id++;
+}
+
+std::vector<std::string> tokenize(std::string str, char delimiter)
+{
+	std::vector<std::string>result;
+	std::stringstream ss(str);
+	std::string token;
+
+	while (getline(ss, token, delimiter))
+		result.push_back(token);
+
+	return result;
+}
+
+int string_to_int(std::string s)
+{
+	std::stringstream ss(s);
+
+	int x = 0;
+	ss >> x;
+
+	return x;
+}
+
+std::ostream& operator<<(std::ostream& os, const Dog& d)
+{
+	os << d.id << "," << d.name << "," << d.breed << "," << d.age << "," << d.photo_link << " \n";
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Dog& d)
+{
+	std::string line;
+	std::getline(is, line);
+
+	std::vector<std::string> tokens = tokenize(line, ',');
+
+	if (tokens.size() != 5)
+		return is;
+
+	d.id = string_to_int(tokens[0]);
+	d.name = tokens[1];
+	d.breed = tokens[2];
+	d.age = string_to_int(tokens[3]);
+	d.photo_link = tokens[4];
+
+	return is;
+}
 
 
 int Dog::current_id = 0;

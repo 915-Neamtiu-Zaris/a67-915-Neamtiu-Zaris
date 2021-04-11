@@ -4,6 +4,7 @@
 #include "Service.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 class Console {
 private:
@@ -19,6 +20,15 @@ public:
 	void printUserMenu();
 	void printAdoptionPrompt();
 	void runConsole();
+	void printFilePrompt();
+
+	void writeDogsCSV();
+	void readDogsCSV();
+
+	void writeDogsHTML();
+	void readDogsHTML();
+
+	int read_integer();
 };
 
 Console::Console()
@@ -52,18 +62,27 @@ inline void Console::printAdoptionPrompt()
 
 inline void Console::runConsole()
 {
-	this->s.add10Dogs();
 	char initialCommand;
+
+	int fileType;
+
+	this->printFilePrompt();
+	std::cin >> fileType;
+
+	if (fileType == 2)
+		this->readDogsCSV();
+	else
+		this->readDogsHTML();
+
+	std::cin.exceptions(std::iostream::failbit);
+	this->printInitialPrompt();
+
+	std::cin >> initialCommand;
 
 	while (true)
 	{
 		try
 		{
-			std::cin.exceptions(std::iostream::failbit);
-			this->printInitialPrompt();
-
-			std::cin >> initialCommand;
-
 			if (initialCommand == 'a')
 			{
 				while (true)
@@ -137,14 +156,21 @@ inline void Console::runConsole()
 					}
 					else if (command == 4)
 					{
-						std::vector<Dog>::iterator dogs = this->s.getAllDogs();
+						std::vector<Dog> dogs = this->s.getAllDogs();
 						int nrDogs = this->s.getNrDogs();
 
 						for (int i = 0; i < nrDogs; ++i)
 							std::cout << dogs[i].ToString();
 					}
 					else if (command == 5)
+					{
+						if (fileType == 2)
+							this->writeDogsCSV();
+						else
+							this->writeDogsHTML();
+
 						return;
+					}
 				}
 			}
 			else if (initialCommand == 'u')
@@ -160,7 +186,7 @@ inline void Console::runConsole()
 						bool go = true;
 						int ind = 0;
 						int nrDogs = this->s.getNrDogs();
-						std::vector<Dog>::iterator dogs = this->s.getAllDogs();
+						std::vector<Dog> dogs = this->s.getAllDogs();
 						int cmd;
 
 						while (go)
@@ -195,7 +221,7 @@ inline void Console::runConsole()
 							{
 								std::cout << "\nAdoption list: \n";
 
-								std::vector<Dog>::iterator dogs = this->s.getAdoptedDogs();
+								std::vector<Dog> dogs = this->s.getAdoptedDogs();
 								int nrDogs = this->s.getNrAdoptedDogs();
 
 								for (int i = 0; i < nrDogs; ++i)
@@ -227,7 +253,7 @@ inline void Console::runConsole()
 						if (breed == "")
 						{
 
-							std::vector<Dog>::iterator dogs = this->s.getAllDogs();
+							std::vector<Dog> dogs = this->s.getAllDogs();
 							int nrDogs = this->s.getNrDogs();
 
 							for (int i = 0; i < nrDogs; ++i)
@@ -241,7 +267,7 @@ inline void Console::runConsole()
 					}
 					else if (command == 3)
 					{
-						std::vector<Dog>::iterator dogs = this->s.getAdoptedDogs();
+						std::vector<Dog> dogs = this->s.getAdoptedDogs();
 						int nrDogs = this->s.getNrAdoptedDogs();
 
 						std::cout << "\nAdoption list: \n";
@@ -250,6 +276,11 @@ inline void Console::runConsole()
 					}
 					else if (command == 4)
 					{
+						if (fileType == 2)
+							this->writeDogsCSV();
+						else
+							this->writeDogsHTML();
+
 						return;
 					}
 				}
@@ -262,5 +293,71 @@ inline void Console::runConsole()
 			std::cout << "Incorrect input!";
 			return;
 		}
+		catch (RepositoryException rex)
+		{
+			std::cout << rex.what() << '\n';
+		}
+		catch (ValidationException vex)
+		{
+			std::cout << vex.what() << '\n';
+		}
+	}
+}
+
+inline void Console::printFilePrompt()
+{
+	std::cout << "Select the type of file you want to read from and store changes in:\n"
+		"1 - HTML\n2 - CSV\n";
+}
+
+inline void Console::writeDogsCSV()
+{
+	std::ofstream fout("Dogs.csv");
+
+	if (!fout.is_open())
+		return;
+
+	std::vector<Dog> dogs = this->s.getAllDogs();
+
+	for (auto dog : dogs)
+		fout << dog;
+
+	fout.close();
+}
+
+inline void Console::readDogsCSV()
+{
+	std::ifstream fin("Dogs.csv");
+
+	if (!fin.is_open())
+		return;
+
+	Dog d;
+	while (fin >> d)
+	{
+		this->s.addDog(d);
+		d.incrementId();
+	}
+
+	fin.close();
+}
+
+inline void Console::writeDogsHTML()
+{
+}
+
+inline void Console::readDogsHTML()
+{
+}
+
+inline int Console::read_integer()
+{
+	int x;
+
+	if (std::cin >> x) {
+		return x;
+	}
+	else {
+		throw ValidationException("Bad input!");
 	}
 }

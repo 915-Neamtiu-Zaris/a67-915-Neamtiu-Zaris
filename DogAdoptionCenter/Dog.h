@@ -1,5 +1,6 @@
 // Dog module
 #include <string>
+#include <iostream>
 #pragma once
 
 class Dog
@@ -43,4 +44,13 @@ public:
 
 	// Id setter
 	void set_id(int id);
+
+	// Overloading "<<" operator.
+	friend std::ostream& operator<<(std::ostream& os, const Dog& d);
+
+	// Overloading ">>" operator.
+	friend std::istream& operator>>(std::istream& is, Dog& d);
+
+	// Increment id.
+	void incrementId();
 };

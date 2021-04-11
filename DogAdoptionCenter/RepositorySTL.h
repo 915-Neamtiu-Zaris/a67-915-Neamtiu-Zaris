@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include "RepositoryException.h"
 // STL vector based Repository module
 
 template<typename T>
@@ -28,7 +29,7 @@ public:
 	T updateElem(int id, T newElem);
 
 	// Get all elements.
-	typename std::vector<T>::iterator getAllElements();
+	typename std::vector<T> getAllElements();
 
 	// Get element by position.
 	T getElement(int pos);
@@ -59,9 +60,16 @@ inline void STLRepository<T>::add(T elem)
 template<typename T>
 inline T STLRepository<T>::removeElem(int pos)
 {
-	T elemTBR = this->vector[pos];
-
-	this->vector.erase(this->vector.begin() + pos);
+	T elemTBR;
+	try
+	{ 
+		elemTBR = this->vector.at(pos);
+		this->vector.erase(this->vector.begin() + pos);
+	}
+	catch (const std::out_of_range& oor)
+	{
+		throw oor;
+	}
 
 	return elemTBR;
 }
@@ -69,6 +77,9 @@ inline T STLRepository<T>::removeElem(int pos)
 template<typename T>
 inline T STLRepository<T>::removeById(int id)
 {
+	if (!this->existsElem(id))
+		throw RepositoryException("The element that you want to remove does not exist!");
+
 	T elemTBR;
 
 	for(unsigned int i = 0; i < this->vector.size(); ++i)
@@ -85,6 +96,9 @@ inline T STLRepository<T>::removeById(int id)
 template<typename T>
 inline T STLRepository<T>::updateElem(int id, T newElem)
 {
+	if (!this->existsElem(id))
+		throw RepositoryException("The element that you want to update does not exist!");
+
 	T elemTBR;
 
 	for(auto& elem : this->vector)
@@ -99,9 +113,9 @@ inline T STLRepository<T>::updateElem(int id, T newElem)
 }
 
 template<typename T>
-inline typename std::vector<T>::iterator STLRepository<T>::getAllElements()
+inline typename std::vector<T> STLRepository<T>::getAllElements()
 {
-	return this->vector.begin();
+	return this->vector;
 }
 
 template<typename T>
