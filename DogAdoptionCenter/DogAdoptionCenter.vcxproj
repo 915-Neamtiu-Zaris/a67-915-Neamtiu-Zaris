@@ -143,6 +143,7 @@
     <ClInclude Include="Dog.h" />
     <ClInclude Include="DynamicVector.h" />
     <ClInclude Include="Repository.h" />
+    <ClInclude Include="RepositorySTL.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>

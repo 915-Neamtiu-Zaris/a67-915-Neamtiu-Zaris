@@ -137,7 +137,7 @@ inline void Console::runConsole()
 					}
 					else if (command == 4)
 					{
-						Dog* dogs = this->s.getAllDogs();
+						std::vector<Dog>::iterator dogs = this->s.getAllDogs();
 						int nrDogs = this->s.getNrDogs();
 
 						for (int i = 0; i < nrDogs; ++i)
@@ -160,7 +160,7 @@ inline void Console::runConsole()
 						bool go = true;
 						int ind = 0;
 						int nrDogs = this->s.getNrDogs();
-						Dog* dogs = this->s.getAllDogs();
+						std::vector<Dog>::iterator dogs = this->s.getAllDogs();
 						int cmd;
 
 						while (go)
@@ -181,7 +181,7 @@ inline void Console::runConsole()
 								// Refresh dog list.
 								dogs = this->s.getAllDogs();
 								nrDogs = this->s.getNrDogs();
-								ind++;
+								//ind++;
 							}
 							else if (cmd == 2)
 							{
@@ -195,7 +195,7 @@ inline void Console::runConsole()
 							{
 								std::cout << "\nAdoption list: \n";
 
-								Dog* dogs = this->s.getAdoptedDogs();
+								std::vector<Dog>::iterator dogs = this->s.getAdoptedDogs();
 								int nrDogs = this->s.getNrAdoptedDogs();
 
 								for (int i = 0; i < nrDogs; ++i)
@@ -220,14 +220,14 @@ inline void Console::runConsole()
 						std::cout << "The age that you want to filter by: ";
 						std::cin >> age;
 
-						Dog filteredDogs[101];
+						std::vector<Dog> filteredDogs;
 
-						int nrDogs = this->s.filterDogsBreedAge(breed, age, filteredDogs);
+						filteredDogs = this->s.filterDogsBreedAge(breed, age);
 
-						if (nrDogs == 0)
+						if (breed == "")
 						{
 
-							Dog* dogs = this->s.getAllDogs();
+							std::vector<Dog>::iterator dogs = this->s.getAllDogs();
 							int nrDogs = this->s.getNrDogs();
 
 							for (int i = 0; i < nrDogs; ++i)
@@ -235,13 +235,13 @@ inline void Console::runConsole()
 						}
 						else
 						{
-							for (int i = 0; i < nrDogs; ++i)
-								std::cout << filteredDogs[i].ToString();
+							for (auto dog : filteredDogs)
+								std::cout << dog.ToString();
 						}
 					}
 					else if (command == 3)
 					{
-						Dog* dogs = this->s.getAdoptedDogs();
+						std::vector<Dog>::iterator dogs = this->s.getAdoptedDogs();
 						int nrDogs = this->s.getNrAdoptedDogs();
 
 						std::cout << "\nAdoption list: \n";

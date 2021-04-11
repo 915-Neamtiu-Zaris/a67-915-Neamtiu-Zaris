@@ -1,13 +1,17 @@
 // Service module
 #pragma once
 #include "Repository.h"
+#include "RepositorySTL.h"
 #include "Dog.h"
 #include <string>
 
 class Service {
 private:
-	Repository<Dog> repo;
-	Repository<Dog> adoptionList;
+	//Repository<Dog> repo;
+	//Repository<Dog> adoptionList;
+
+	STLRepository<Dog> repo;
+	STLRepository<Dog> adoptionList;
 
 public:
 
@@ -17,11 +21,11 @@ public:
 	void addDogByVars(std::string name, std::string breed, int age, std::string link_photo);
 	void removeDogById(int id);
 	void updateDogById(int id, std::string name, std::string breed, int age, std::string link_photo);
-	Dog* getAllDogs();
+	std::vector<Dog>::iterator getAllDogs();
 	int getNrDogs();
 	void add10Dogs();
-	int filterDogsBreedAge(std::string breed, int age, Dog* filteredDogs);
-	Dog* getAdoptedDogs();
+	std::vector<Dog> filterDogsBreedAge(std::string breed, int age);
+	std::vector<Dog>::iterator getAdoptedDogs();
 	int getNrAdoptedDogs();
 	void addToAdoptionList(Dog d);
 };
@@ -61,7 +65,7 @@ inline void Service::updateDogById(int id, std::string name, std::string breed, 
 		throw 21;
 }
 
-inline Dog* Service::getAllDogs()
+inline std::vector<Dog>::iterator Service::getAllDogs()
 {
 	return this->repo.getAllElements();
 }
@@ -96,27 +100,24 @@ inline void Service::add10Dogs()
 	this->repo.add(d10);
 }
 
-inline int Service::filterDogsBreedAge(std::string breed, int age, Dog* filteredDogs)
+inline std::vector<Dog> Service::filterDogsBreedAge(std::string breed, int age)
 {
-	Dog* dogs = this->getAllDogs();
+	std::vector<Dog>::iterator dogs = this->getAllDogs();
 	int nrDogs = this->getNrDogs();
 
-	if (breed == "")
-		return 0;
+	std::vector<Dog> filteredDogs;
 
-	int nrTBR = 0;
+	if (breed == "")
+		return filteredDogs;
 
 	for (int i = 0; i < nrDogs; ++i)
 		if (dogs[i].get_breed() == breed && dogs[i].get_age() < age)
-		{
-			filteredDogs[nrTBR] = dogs[i];
-			nrTBR++;
-		}
+			filteredDogs.push_back(dogs[i]);
 
-	return nrTBR;
+	return filteredDogs;
 }
 
-inline Dog* Service::getAdoptedDogs()
+inline std::vector<Dog>::iterator Service::getAdoptedDogs()
 {
 	return this->adoptionList.getAllElements();
 }

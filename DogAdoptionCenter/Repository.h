@@ -1,6 +1,6 @@
 #pragma once
 #include "DynamicVector.h"
-#include <iostream>
+
 // Repository module
 
 template<typename T>
@@ -13,6 +13,7 @@ public:
 	// Constructor
 	Repository();
 
+	// Destructor
 	~Repository();
 
 	void add(T elem);
