@@ -1,0 +1,22 @@
+[2021-03-24 15:44:18] [info] Start Program:
+Path:"C:\\Users\\zneam\\OneDrive\\Documents\\GitHub\\a45-915-Neamtiu-Zaris\\DogAdoptionCenter\\Debug\\DogAdoptionCenter.exe"
+Arguments:
+Working directory: "C:\\Users\\zneam\\OneDrive\\Documents\\GitHub\\a45-915-Neamtiu-Zaris\\DogAdoptionCenter\\"
+Modules: Selected: C:\Users\zneam\OneDrive\Documents\GitHub\a45-915-Neamtiu-Zaris\DogAdoptionCenter\Debug\DogAdoptionCenter.exe Excluded: 
+Sources: Selected: C:\Users\zneam\OneDrive\Documents\GitHub\a45-915-Neamtiu-Zaris\DogAdoptionCenter Excluded: 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: binary C:\Users\zneam\AppData\Local\Temp\15nt1oty.zbn 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2021-03-24 15:44:18] [info] Module: C:\Users\zneam\OneDrive\Documents\GitHub\a45-915-Neamtiu-Zaris\DogAdoptionCenter\Debug\DogAdoptionCenter.exe is selected because it matches selected pattern: C:\Users\zneam\OneDrive\Documents\GitHub\a45-915-Neamtiu-Zaris\DogAdoptionCenter\Debug\DogAdoptionCenter.exe
+[2021-03-24 15:52:47] [info] ----------------------------------------------------
+[2021-03-24 15:52:47] [info] Coverage binary generated in file: C:\Users\zneam\AppData\Local\Temp\15nt1oty.zbn
+[2021-03-24 15:52:47] [info] ----------------------------------------------------
+[2021-03-24 15:52:47] [error] Your program stop with error code: 1
