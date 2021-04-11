@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <limits>
 
 class Console {
 private:
@@ -62,27 +63,37 @@ inline void Console::printAdoptionPrompt()
 
 inline void Console::runConsole()
 {
-	char initialCommand;
+	char initialCommand = 'l';
+	int fileType = 0;
 
-	int fileType;
-
-	this->printFilePrompt();
-	std::cin >> fileType;
-
-	if (fileType == 2)
-		this->readDogsCSV();
-	else
-		this->readDogsHTML();
-
-	std::cin.exceptions(std::iostream::failbit);
-	this->printInitialPrompt();
-
-	std::cin >> initialCommand;
+	while (fileType != 1 && fileType != 2)
+	{
+		try
+		{
+			this->printFilePrompt();
+			fileType = this->read_integer();
+		}
+		catch (std::iostream::failure e)
+		{
+			std::cout << e.what() << '\n';
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+	}
 
 	while (true)
 	{
 		try
 		{
+			if (fileType == 2)
+				this->readDogsCSV();
+			else
+				this->readDogsHTML();
+
+			this->printInitialPrompt();
+
+			std::cin >> initialCommand;
+
 			if (initialCommand == 'a')
 			{
 				while (true)
@@ -90,7 +101,8 @@ inline void Console::runConsole()
 					this->printAdminMenu();
 
 					int command;
-					std::cin >> command;
+					//std::cin >> command;
+					command = this->read_integer();
 
 					if (command == 1)
 					{
@@ -104,7 +116,8 @@ inline void Console::runConsole()
 						std::cout << "Breed: ";
 						std::cin >> breed;
 						std::cout << "Age: ";
-						std::cin >> age;
+						//std::cin >> age;
+						age = this->read_integer();
 						std::cout << "Photo link: ";
 						std::cin >> photo_link;
 
@@ -114,7 +127,8 @@ inline void Console::runConsole()
 					{
 						int id;
 						std::cout << "The id of the dog to be removed: ";
-						std::cin >> id;
+						//std::cin >> id;
+						id = this->read_integer();
 						try
 						{
 							this->s.removeDogById(id);
@@ -134,13 +148,15 @@ inline void Console::runConsole()
 						std::string photo_link;
 
 						std::cout << "The id of the dog you want to update: ";
-						std::cin >> id;
+						//std::cin >> id;
+						id = this->read_integer();
 						std::cout << "Name: ";
 						std::cin >> name;
 						std::cout << "Breed: ";
 						std::cin >> breed;
 						std::cout << "Age: ";
-						std::cin >> age;
+						//std::cin >> age;
+						age = this->read_integer();
 						std::cout << "Photo link: ";
 						std::cin >> photo_link;
 
@@ -179,7 +195,8 @@ inline void Console::runConsole()
 				{
 					this->printUserMenu();
 					int command;
-					std::cin >> command;
+					// std::cin >> command;
+					command = this->read_integer();
 
 					if (command == 1)
 					{
@@ -194,7 +211,8 @@ inline void Console::runConsole()
 							std::cout << "\nCurrent dog: " << dogs[ind % nrDogs].ToString() << "\n";
 							this->printAdoptionPrompt();
 
-							std::cin >> cmd;
+							//std::cin >> cmd;
+							cmd = this->read_integer();
 
 							if (cmd == 1)
 							{
@@ -244,7 +262,8 @@ inline void Console::runConsole()
 						std::getline(std::cin, breed);
 						std::istringstream iss(breed);
 						std::cout << "The age that you want to filter by: ";
-						std::cin >> age;
+						// std::cin >> age;
+						age = this->read_integer();
 
 						std::vector<Dog> filteredDogs;
 
@@ -286,13 +305,6 @@ inline void Console::runConsole()
 				}
 			}
 		}
-		catch (std::iostream::failure e)
-		{
-			//std::cerr << "Exception reading info\n";
-			//std::getchar();
-			std::cout << "Incorrect input!";
-			return;
-		}
 		catch (RepositoryException rex)
 		{
 			std::cout << rex.what() << '\n';
@@ -300,6 +312,12 @@ inline void Console::runConsole()
 		catch (ValidationException vex)
 		{
 			std::cout << vex.what() << '\n';
+		}
+		catch (std::iostream::failure e)
+		{
+			std::cout << e.what() << '\n';
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 	}
 }
@@ -358,6 +376,6 @@ inline int Console::read_integer()
 		return x;
 	}
 	else {
-		throw ValidationException("Bad input!");
+		throw std::iostream::failure("Bad input!");
 	}
 }
