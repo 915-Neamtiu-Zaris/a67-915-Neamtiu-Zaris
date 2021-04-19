@@ -2,6 +2,7 @@
 // Console module
 
 #include "Service.h"
+#include "Storage.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -9,6 +10,7 @@
 
 class Console {
 private:
+	Storage* st = nullptr;
 	Service s;
 
 public:
@@ -23,8 +25,8 @@ public:
 	void runConsole();
 	void printFilePrompt();
 
-	void writeDogsCSV();
-	void readDogsCSV();
+	void writeDogsTXT();
+	void readDogsTXT();
 
 	void writeDogsHTML();
 	void readDogsHTML();
@@ -38,6 +40,8 @@ Console::Console()
 
 Console::~Console()
 {
+	if (this->st != nullptr)
+		delete this->st;
 }
 
 void Console::printInitialPrompt()
@@ -53,12 +57,12 @@ void Console::printAdminMenu()
 
 void Console::printUserMenu()
 {
-	std::cout << "\n1 - View dogs.\n2 - Filter dogs by breed, with maximum age.\n3 - See adoption list.\n4 - Exit\n";
+	std::cout << "\n1 - View dogs.\n2 - Filter dogs by breed, with maximum age.\n3 - See adoption list.\n4 - Display adoption list.\n5 - Exit\n";
 }
 
 inline void Console::printAdoptionPrompt()
 {
-	std::cout << "\n1 - Adopt.\n2 - See dog's photo.\n3 - Next.\n4 - See adoption list.\n5 - Return.\n";
+	std::cout << "\n1 - Adopt.\n2 - See dog's photo.\n3 - Next.\n4 - See adoption list.\n5 - Display adoption list.\n6 - Return.\n";
 }
 
 inline void Console::runConsole()
@@ -85,10 +89,12 @@ inline void Console::runConsole()
 	{
 		try
 		{
+			this->readDogsTXT();
+
 			if (fileType == 2)
-				this->readDogsCSV();
+				this->st = new CSVStorage("Dogs.csv");
 			else
-				this->readDogsHTML();
+				this->st = new HTMLStorage("Dogs.html");
 
 			this->printInitialPrompt();
 
@@ -180,11 +186,8 @@ inline void Console::runConsole()
 					}
 					else if (command == 5)
 					{
-						if (fileType == 2)
-							this->writeDogsCSV();
-						else
-							this->writeDogsHTML();
-
+						this->writeDogsTXT();
+						this->st->write_to_file(this->s);
 						return;
 					}
 				}
@@ -206,7 +209,7 @@ inline void Console::runConsole()
 						std::vector<Dog> dogs = this->s.getAllDogs();
 						int cmd;
 
-						while (go)
+						while (go && s.getNrDogs() != 0)
 						{
 							std::cout << "\nCurrent dog: " << dogs[ind % nrDogs].ToString() << "\n";
 							this->printAdoptionPrompt();
@@ -248,6 +251,11 @@ inline void Console::runConsole()
 								std::cout << '\n';
 							}
 							else if (cmd == 5)
+							{
+								this->st->write_to_file(this->s);
+								system(std::string("start " + this->st->get_filename()).c_str());
+							}
+							else if (cmd == 6)
 							{
 								go = false;
 							}
@@ -295,11 +303,13 @@ inline void Console::runConsole()
 					}
 					else if (command == 4)
 					{
-						if (fileType == 2)
-							this->writeDogsCSV();
-						else
-							this->writeDogsHTML();
-
+						this->st->write_to_file(this->s);
+						system(std::string("start " + this->st->get_filename()).c_str());
+					}
+					else if (command == 5)
+					{
+						this->st->write_to_file(this->s);
+						this->writeDogsTXT();
 						return;
 					}
 				}
@@ -328,9 +338,9 @@ inline void Console::printFilePrompt()
 		"1 - HTML\n2 - CSV\n";
 }
 
-inline void Console::writeDogsCSV()
+inline void Console::writeDogsTXT()
 {
-	std::ofstream fout("Dogs.csv");
+	std::ofstream fout("Dogs.txt", std::ofstream::trunc);
 
 	if (!fout.is_open())
 		return;
@@ -343,9 +353,9 @@ inline void Console::writeDogsCSV()
 	fout.close();
 }
 
-inline void Console::readDogsCSV()
+inline void Console::readDogsTXT()
 {
-	std::ifstream fin("Dogs.csv");
+	std::ifstream fin("Dogs.txt");
 
 	if (!fin.is_open())
 		return;

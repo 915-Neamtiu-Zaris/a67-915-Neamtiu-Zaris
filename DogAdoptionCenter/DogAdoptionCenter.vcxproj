@@ -147,6 +147,7 @@
     <ClInclude Include="RepositoryException.h" />
     <ClInclude Include="RepositorySTL.h" />
     <ClInclude Include="Service.h" />
+    <ClInclude Include="Storage.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +155,12 @@
     <ClCompile Include="DogValidator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Service.cpp" />
+    <ClCompile Include="Storage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dogs.csv" />
+    <None Include="Dogs.html" />
+    <None Include="Dogs.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

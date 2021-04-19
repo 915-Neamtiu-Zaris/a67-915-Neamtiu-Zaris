@@ -67,6 +67,13 @@ void Dog::incrementId()
 	this->current_id++;
 }
 
+std::string Dog::ToHTML()
+{
+	std::stringstream buffer;
+	buffer << "<tr>\n" << "<td>" << this->id << "</td>\n" << "<td>" << this->name << "</td>\n" << "<td>" << this->breed << "</td>\n" << "<td>" << this->age << "</td>\n" << "<td>" << "<a href=\"" << this->photo_link << "\">Link</a>" << "</td>\n" << "</tr>\n";
+	return buffer.str();
+}
+
 std::vector<std::string> tokenize(std::string str, char delimiter)
 {
 	std::vector<std::string>result;

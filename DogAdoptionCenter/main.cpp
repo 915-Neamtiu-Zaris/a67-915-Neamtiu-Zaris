@@ -38,6 +38,7 @@ See the adoption list.
 
 #include "Console.h"
 #include "Test.h"
+#include "Storage.h"
 #include <iostream>
 
 int main()

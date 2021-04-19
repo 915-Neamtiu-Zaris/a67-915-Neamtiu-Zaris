@@ -25,7 +25,7 @@ public:
 	void addDog(Dog d);
 	void removeDogById(int id);
 	void updateDogById(int id, std::string name, std::string breed, int age, std::string link_photo);
-	std::vector<Dog> getAllDogs();
+	const std::vector<Dog> getAllDogs();
 	int getNrDogs();
 	void add10Dogs();
 	std::vector<Dog> filterDogsBreedAge(std::string breed, int age);
@@ -34,11 +34,11 @@ public:
 	void addToAdoptionList(Dog d);
 };
 
-Service::Service()
+inline Service::Service()
 {
 }
 
-Service::~Service()
+inline Service::~Service()
 {
 }
 
@@ -70,7 +70,7 @@ inline void Service::updateDogById(int id, std::string name, std::string breed, 
 		throw 21;
 }
 
-inline std::vector<Dog> Service::getAllDogs()
+const inline std::vector<Dog> Service::getAllDogs()
 {
 	return this->repo.getAllElements();
 }

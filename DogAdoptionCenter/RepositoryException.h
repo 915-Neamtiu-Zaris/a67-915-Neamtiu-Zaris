@@ -13,16 +13,16 @@ public:
 	std::string getMessage();
 };
 
-RepositoryException::RepositoryException(std::string _message) : message{_message}
+inline RepositoryException::RepositoryException(std::string _message) : message{_message}
 {
 }
 
-const char *RepositoryException::what() const noexcept
+inline const char *RepositoryException::what() const noexcept
 {
 	return message.c_str();
 }
 
-std::string RepositoryException::getMessage()
+inline std::string RepositoryException::getMessage()
 {
 	return this->message;
 }

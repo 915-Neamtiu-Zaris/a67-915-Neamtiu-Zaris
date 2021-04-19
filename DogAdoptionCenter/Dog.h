@@ -53,4 +53,7 @@ public:
 
 	// Increment id.
 	void incrementId();
+
+	// Return nice string for HTML printing
+	std::string ToHTML();
 };

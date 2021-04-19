@@ -42,6 +42,9 @@
     <ClInclude Include="DogValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Storage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,8 +59,17 @@
     <ClCompile Include="DogValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Storage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dogs.txt">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Dogs.html">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Dogs.csv">
       <Filter>Resource Files</Filter>
     </None>
