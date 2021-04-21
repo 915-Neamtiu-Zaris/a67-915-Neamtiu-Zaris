@@ -1,5 +1,3 @@
-9,Thor,Bulldog,6,https://www.pexels.com/photo/short-coated-tan-dog-2253275/   
-11,Astral,Siberian Husky,8,https://www.pexels.com/photo/short-coated-brown-dog-sitting-inside-a-car-2797318/   
-13,Bono,Doberman,9,https://www.pexels.com/photo/brown-pomeranian-puppy-on-grey-concrete-floor-3687770/   
-15,Bobo,Dalmatian,6,https://www.pexels.com/photo/brown-and-white-dog-wearing-yellow-knit-cap-4588052/   
-20,a,a,2,a   
+9,Thor,Bulldog,6,https://www.pexels.com/photo/short-coated-tan-dog-2253275/    
+11,Astral,Siberian Husky,8,https://www.pexels.com/photo/short-coated-brown-dog-sitting-inside-a-car-2797318/    
+13,Bono,Doberman,9,https://www.pexels.com/photo/brown-pomeranian-puppy-on-grey-concrete-floor-3687770/    
